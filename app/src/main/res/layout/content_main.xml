@@ -7,13 +7,13 @@
     android:fillViewport="false">
 
 
-
     <LinearLayout
         android:id="@+id/linearLayout1"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="40dip"
         android:orientation="horizontal" >
+
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -35,6 +35,24 @@
         </TextView>
 
     </LinearLayout>
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Test"
+        android:id="@+id/btnTest"
+        android:onClick="doTest"
+        android:layout_gravity="right" />
+
+
+    <Button
+        style="?android:attr/buttonStyleSmall"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Upload"
+        android:id="@+id/btnUpload"
+        android:onClick="doUpload"
+        android:layout_gravity="right" />
 
     <ScrollView
         android:id="@+id/linearLayout2"

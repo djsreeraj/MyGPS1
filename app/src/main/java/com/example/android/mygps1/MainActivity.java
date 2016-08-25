@@ -1,6 +1,11 @@
+//main
+
+
+
 package com.example.android.mygps1;
 
 import android.Manifest;
+import android.app.AlertDialog;
 import android.content.Context;
 import android.content.pm.PackageManager;
 import android.location.Location;
@@ -23,8 +28,9 @@ import java.util.ArrayList;
 public class MainActivity extends AppCompatActivity implements LocationListener {
 
     private LocationManager locationManager;
-   ArrayList<String> mylist = new ArrayList<String>();
+    ArrayList<String> mylist = new ArrayList<String>();
     TextView dataText;
+    String CurrentLat = "noData", CurrentLng="noData",mode="";
 
 
 
@@ -47,7 +53,7 @@ public class MainActivity extends AppCompatActivity implements LocationListener 
 
         locationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
 
-      dataText  = (TextView) findViewById(R.id.dataText);
+        dataText  = (TextView) findViewById(R.id.dataText);
 
         if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
             // TODO: Consider calling
@@ -64,8 +70,40 @@ public class MainActivity extends AppCompatActivity implements LocationListener 
                 2, this);
 
 
+
     }
 
+
+    public void doTest(View view){
+        String str ="btnworks";
+
+        Toast.makeText(getBaseContext(), str, Toast.LENGTH_SHORT).show();
+
+ String lt = "11.222365";
+ String lg = "56.999964";
+ String type = "insert";
+        mode="testInsert";
+
+ BackgroundWorker backgroundWorker = new BackgroundWorker(this);
+ backgroundWorker.execute(type, lt, lg,mode);
+
+    }
+
+
+    public void doUpload(View view){
+        String str ="Uploading...";
+
+        Toast.makeText(getBaseContext(), str, Toast.LENGTH_SHORT).show();
+
+       // String lt = "11.222365";
+      //  String lg = "56.999964";
+        String type = "insert";
+        mode = "clickInsert";
+
+        BackgroundWorker backgroundWorker = new BackgroundWorker(this);
+        backgroundWorker.execute(type,CurrentLat,CurrentLng,mode);
+
+    }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
@@ -82,16 +120,33 @@ public class MainActivity extends AppCompatActivity implements LocationListener 
         return super.onOptionsItemSelected(item);
     }
 
+
+
     @Override
     public void onLocationChanged(Location location) {
         String str = "Lat"+location.getLatitude()+"--Lng:"+location.getLongitude();
 
-       mylist.add(str);
-       dataText.append("\n*:");
-        dataText.append(str);
+        mylist.add(str);
+          dataText.append("\n*:");
+          dataText.append(str);
+        double lat = location.getLatitude();
+        double lng = location.getLongitude();
+        String lt = String.valueOf(lat);
+        String lg = String.valueOf(lng);
+
+        CurrentLat = lt;
+        CurrentLng = lg;
+        mode = "autoInsert";
+        String type = "insert";
+
+        BackgroundWorker backgroundWorker = new BackgroundWorker(this);
+        backgroundWorker.execute(type,lt,lg,mode);
+
 
         Toast.makeText(getBaseContext(), str, Toast.LENGTH_SHORT).show();
     }
+
+
 
     @Override
     public void onStatusChanged(String provider, int status, Bundle extras) {
@@ -108,3 +163,4 @@ public class MainActivity extends AppCompatActivity implements LocationListener 
         Toast.makeText(getBaseContext(), "Gps turned off ", Toast.LENGTH_SHORT).show();
     }
 }
+//updated on 26
